@@ -15,7 +15,7 @@ features = [col for col in train.columns if col != "target"]
 x_train, x_test, y_train, y_test = train_test_split(
     train[features],
     train["target"],
-    test_size=0.2,
+    test_size=0.3,
     random_state=42,
     stratify=train["target"],
 )
