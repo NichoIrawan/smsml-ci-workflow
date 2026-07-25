@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  CSV_URL: "MLproject/train_preprocessed.csv"
+  CSV_URL: "MLProject/train_preprocessed.csv"
   TARGET_VAR: "target"
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
       - name: Install Depedencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r MLproject/requirements.txt
+          pip install -r MLProject/requirements.txt
 
       - name: Get latest MLflow run_id
         run: |
