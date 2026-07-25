@@ -34,13 +34,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r MLProject/requirements.txt
 
-      - name: Get latest MLflow run_id
+      - name: Run MLflow Project
+        working-directory: MLProject
         run: |
-          RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f3)
+          python modeling.py
+
+      - name: Get latest MLflow run_id
+        working-directory: MLProject
+        run: |
+          RUN_ID=$(python -c "
+          import mlflow
+          mlflow.set_tracking_uri('file:./mlruns')
+          exp = mlflow.get_experiment_by_name('SMSML_Experiment')
+          runs = mlflow.search_runs(experiment_ids=[exp.experiment_id], order_by=['start_time DESC'])
+          print(runs.iloc[0].run_id)
+          ")
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
       - name: Build Docker Model
+        working-directory: MLProject
         run: |
           mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "cc"
 
