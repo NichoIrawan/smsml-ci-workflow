@@ -44,7 +44,7 @@ jobs:
         run: |
           RUN_ID=$(python -c "
           import mlflow
-          mlflow.set_tracking_uri('file:./mlruns')
+          mlflow.set_tracking_uri('sqlite:///mlflow.db')
           exp = mlflow.get_experiment_by_name('SMSML_Experiment')
           runs = mlflow.search_runs(experiment_ids=[exp.experiment_id], order_by=['start_time DESC'])
           print(runs.iloc[0].run_id)
@@ -54,6 +54,8 @@ jobs:
 
       - name: Build Docker Model
         working-directory: MLProject
+        env:
+          MLFLOW_TRACKING_URI: sqlite:///mlflow.db
         run: |
           mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "cc"
 
