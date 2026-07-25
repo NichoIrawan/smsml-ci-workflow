@@ -37,7 +37,7 @@ jobs:
       - name: Run MLflow Project
         working-directory: MLProject
         run: |
-          python modeling.py
+          python modelling.py
 
       - name: Get latest MLflow run_id
         working-directory: MLProject
