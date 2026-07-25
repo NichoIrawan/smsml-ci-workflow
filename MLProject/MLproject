@@ -1,0 +1,12 @@
+name: smsml_workflow
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      tracking_uri: {type: string, default: "file:///"}
+      experiment_name: {type: string, default: "SMSML_Experiment"}
+      run_name: {type: string, default: "Logistic_Regression_Baseline"}
+    command: >-
+      python modelling.py
